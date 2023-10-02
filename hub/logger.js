@@ -4,7 +4,6 @@ const eventEmitter = require('../eventPool.js');
 
 // subscriber!
 function logger(payload) {
-  console.log("here at logger ", payload)
   console.log(
     `EVENT: { 
       event: '${payload.event}',

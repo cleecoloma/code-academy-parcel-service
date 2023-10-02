@@ -10,11 +10,9 @@ function handleDriver(payload) {
 
   console.log(`DRIVER: delivered up ${payload.data.orderId}`);
 
-  // eventEmitter.emit('delivered', { event: 'pickup', data: orderPayload });
+  eventEmitter.emit('deliveredVendor', { event: 'delivered', data: payload.data });
 
-  // console.log(`DRIVER: delivered ${payload.order_id}`);
-
-  // eventEmitter.emit('delivered', { isDelivered: true });
+  eventEmitter.emit('deliveredLogger', { event: 'delivered', data: payload.data });
 }
 
 module.exports = handleDriver;

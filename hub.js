@@ -10,6 +10,8 @@ eventEmitter.on('driver', handleDriver);
 eventEmitter.on('vendor', handleVendor);
 eventEmitter.on('pickup', logger);
 eventEmitter.on('in-transit', logger);
+// eventEmitter.on('deliveredVendor', handleVendor);
+eventEmitter.on('deliveredLogger', logger);
 
 // the order in which events are published, determines the order in which subscribers are run.
 eventEmitter.emit('vendor');
