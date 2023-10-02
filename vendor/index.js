@@ -1,5 +1,5 @@
 'use strick';
 
-const vendor = required('./handler.js')
+const vendor = require('./handler.js')
 
 module.exports = vendor;

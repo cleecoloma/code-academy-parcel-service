@@ -4,15 +4,17 @@ const eventEmitter = require('../eventPool.js');
 
 // subscriber!
 function handleDriver(payload) {
-  payload.readyForPickup ? console.log(`DRIVER: picked up ${payload.order_id}`) : null;
+  console.log(`DRIVER: picked up ${payload.data.orderId}`);
 
-  // eventEmitter.on('pickup', handleDriver);
+  eventEmitter.emit('in-transit', { event: 'in-transit', data: payload.data });
 
-  eventEmitter.emit('in-transit', { isInTransit: true });
+  console.log(`DRIVER: delivered up ${payload.data.orderId}`);
 
-  console.log(`DRIVER: delivered ${payload.order_id}`);
+  // eventEmitter.emit('delivered', { event: 'pickup', data: orderPayload });
 
-  eventEmitter.emit('delivered', { isDelivered: true });
+  // console.log(`DRIVER: delivered ${payload.order_id}`);
+
+  // eventEmitter.emit('delivered', { isDelivered: true });
 }
 
 module.exports = handleDriver;

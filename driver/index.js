@@ -1,5 +1,5 @@
-'use strick';
+'use strict';
 
-const driver = required('./handler.js');
+const driver = require('./handler.js');
 
 module.exports = driver;
