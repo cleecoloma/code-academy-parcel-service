@@ -10,8 +10,6 @@ function handleDriver(payload) {
 
   console.log(`DRIVER: delivered up ${payload.data.orderId}`);
 
-  eventEmitter.emit('deliveredVendor', { event: 'delivered', data: payload.data });
-
   eventEmitter.emit('deliveredLogger', { event: 'delivered', data: payload.data });
 }
 

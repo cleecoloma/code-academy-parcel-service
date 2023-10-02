@@ -10,15 +10,13 @@ const orderPayload = {
 };
 
 function handleVendor(payload) {
-  console.log(`Im here at vendor `, payload);
-  if (payload === 'delivered') {
+  eventEmitter.emit('pickup', { event: 'pickup', data: orderPayload });
+
+  eventEmitter.emit('driver', { data: orderPayload });
+
+  eventEmitter.on('deliveredVendor', () => {
     console.log(`Thank you for delivering ${orderPayload.orderId}`);
-  } else {
-    eventEmitter.emit('pickup', { event: 'pickup', data: orderPayload });
-
-    eventEmitter.emit('driver', { data: orderPayload });
-  }
-
+  });
 }
 
 module.exports = handleVendor;
