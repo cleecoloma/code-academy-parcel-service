@@ -1,14 +1,17 @@
 'use strict';
 
-const eventPool = require('../eventPool.js');
+require('dotenv').config();
+const SERVER_URL = process.env.SERVER_URL;
+const io = require('socket.io-client');
+const capsSocket = io.connect(SERVER_URL + '/caps');
 
 function handlePickup(payload) {
   console.log('DRIVER: picked up ' + payload.orderId);
-  eventPool.emit('in-transit', payload);
+  capsSocket.emit('in-transit', payload);
 
   setTimeout(() => {
     console.log('DRIVER: delivered up ' + payload.orderId);
-    eventPool.emit('delivered', payload);
+    capsSocket.emit('delivered', payload);
   }, 2000);
 }
 
