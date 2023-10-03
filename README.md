@@ -18,5 +18,5 @@
 [PR link Class 11](https://github.com/cleecoloma/code-academy-parcel-service/pull/1)
 
 ## Contributors
-> Chester Lee Coloma
-> ChatGPT helped with the emit tests
+* Chester Lee Coloma
+* ChatGPT helped with the emit tests
