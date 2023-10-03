@@ -1,5 +1,6 @@
 'use strict';
 
-const driver = require('./handler.js');
+const eventEmitter = require('../eventPool.js');
+const handlePickup = require('./handler.js');
 
-module.exports = driver;
+eventEmitter.on('pickup', handlePickup);

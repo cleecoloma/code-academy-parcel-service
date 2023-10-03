@@ -1,16 +1,15 @@
 'use strict';
 
-const eventEmitter = require('../eventPool.js');
+const eventPool = require('../eventPool.js');
 
-// subscriber!
-function handleDriver(payload) {
-  console.log(`DRIVER: picked up ${payload.data.orderId}`);
+function handlePickup(payload) {
+  console.log('DRIVER: picked up ' + payload.orderId);
+  eventPool.emit('in-transit', payload);
 
-  eventEmitter.emit('in-transit', { event: 'in-transit', data: payload.data });
-
-  console.log(`DRIVER: delivered up ${payload.data.orderId}`);
-
-  eventEmitter.emit('deliveredLogger', { event: 'delivered', data: payload.data });
+  setTimeout(() => {
+    console.log('DRIVER: delivered up ' + payload.orderId);
+    eventPool.emit('delivered', payload);
+  }, 2000);
 }
 
-module.exports = handleDriver;
+module.exports = handlePickup;

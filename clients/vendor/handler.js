@@ -1,22 +1,22 @@
 'use strict';
 
-const eventEmitter = require('../../eventPool.js');
+const Chance = require('chance');
+const chance = new Chance();
 
-const orderPayload = {
-  store: 'Lawns',
-  orderId: 'order123',
-  customer: 'Koko',
-  address: 'Bremerton, WA',
-};
-
-function handleVendor(payload) {
-  eventEmitter.emit('pickup', { event: 'pickup', data: orderPayload });
-
-  eventEmitter.emit('driver', { data: orderPayload });
-
-  eventEmitter.on('deliveredVendor', () => {
-    console.log(`Thank you for delivering ${orderPayload.orderId}`);
-  });
+function handleDelivery(payload) {
+  console.log('Thank you for your order ' + payload.customer);
 }
 
-module.exports = handleVendor;
+function createPickup(storeName) {
+  return {
+    store: storeName,
+    orderId: chance.guid(),
+    customer: chance.name(),
+    address: chance.address(),
+  };
+}
+
+module.exports = {
+  handleDelivery,
+  createPickup,
+};
