@@ -7,7 +7,7 @@ function logger(payload) {
   console.log(
     `EVENT: { 
       event: '${payload.event}',
-      time: '${Date.now()}',
+      time: '${new Date().toISOString()}',
       payload: {
         store: '${payload.data.store}',
         orderId: '${payload.data.orderId}',
