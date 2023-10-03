@@ -1,7 +1,7 @@
 'use strict';
 
 const handleVendor = require('./handler.js');
-const eventEmitter = require('../eventPool.js');
+const eventEmitter = require('../../eventPool.js');
 
 // Mock the eventEmitter methods
 jest.mock('../eventPool.js');
@@ -34,5 +34,4 @@ describe('handleVendor function', () => {
 
     expect(onSpy).toHaveBeenCalledWith('deliveredVendor', expect.any(Function));
   });
-
 });

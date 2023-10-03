@@ -1,6 +1,6 @@
 'use strict';
 
-const eventEmitter = require('../eventPool.js');
+const eventEmitter = require('../../eventPool.js');
 
 const orderPayload = {
   store: 'Lawns',
