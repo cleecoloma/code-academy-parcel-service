@@ -1,16 +1,22 @@
 {
   "name": "code-academy-parcel-service",
   "version": "1.0.0",
-  "description": "**Phase 1: Event Driven Applications**  > Begin the build of an application for a product called CAPS - The Code Academy Parcel Service. In this sprint, we’ll build out a system that emulates a real world supply chain. CAPS will simulate a delivery service where vendors (such a flower shops) will ship products using our delivery service and when our drivers deliver them, each vendor will be notified that their customers received what they purchased. This will be an event driven application that “distributes” the responsibility for logging to separate modules, using only events to trigger logging based on activity.",
+  "description": "CAPS will simulate a delivery service where vendors (such a flower shops) will ship products using our delivery service and when our drivers deliver them, each vendor will be notified that their customers received what they purchased.",
   "main": "hub.js",
   "scripts": {
     "test": "jest --verbose --coverage",
-    "start": "node hub.js"
+    "start": "node server/index.js",
+    "driver": "node clients/driver/index.js",
+    "vendor": "node clients/vendor/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jest": "^29.7.0"
+    "chance": "^1.1.11",
+    "dotenv": "^16.3.1",
+    "jest": "^29.7.0",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
   }
 }
