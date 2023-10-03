@@ -12,10 +12,10 @@
 > To test, use: `npm test`
 
 ## UML Diagram
-![Bearer Auth UML Diagram](./public/images/401-class-08-lab.png)
+![Bearer Auth UML Diagram](./public/images/401-class-11-lab.png)
 
 ## PR link
-[PR link Class 08](https://github.com/cleecoloma/auth-api/pull/1)
+[PR link Class 11](https://github.com/cleecoloma/code-academy-parcel-service/pull/1)
 
 ## Contributors
 > Chester Lee Coloma
