@@ -1,7 +1,7 @@
 # Code Academy Parcel Service
 
-**Phase 1: Event Driven Applications** 
-**Phase 2: SocketIO** 
+1. **Phase 1: Event Driven Applications**
+2. **Phase 2: SocketIO** 
 > Begin the build of an application for a product called CAPS - The Code Academy Parcel Service. In this sprint, we’ll build out a system that emulates a real world supply chain. CAPS will simulate a delivery service where vendors (such a flower shops) will ship products using our delivery service and when our drivers deliver them, each vendor will be notified that their customers received what they purchased.
 
 ## Installation
