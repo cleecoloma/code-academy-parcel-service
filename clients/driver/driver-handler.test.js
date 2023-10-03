@@ -1,33 +1,55 @@
 'use strict';
 
-const handleDriver = require('./handler.js');
+// handler.test.js
 
-beforeEach(() => {
-  console.log = jest.fn();
+// Import the function you want to test
+const handlePickup = require('./handler');
+
+// Mock 'dotenv' to set environment variables for testing
+jest.mock('dotenv', () => ({
+  config: jest.fn(),
+}));
+
+// Mock 'socket.io-client' to avoid actual socket connections
+jest.mock('socket.io-client', () => {
+  const emitMock = jest.fn();
+  return {
+    connect: jest.fn(() => ({
+      on: jest.fn(),
+      emit: emitMock,
+    })),
+  };
 });
 
-describe('Testing driver handler', () => {
-  test('Should log when driver picks up payload', () => {
-    handleDriver({
-      data: {
-        store: 'Lawns',
-        orderId: 'order123',
-        customer: 'Koko',
-        address: 'Bremerton, WA',
-      },
-    });
-    expect(console.log).toHaveBeenCalledWith('DRIVER: picked up order123');
+// Mock console.log to capture log messages
+const originalConsoleLog = console.log;
+let consoleOutput;
+
+// Utility function to wait for a certain period of time
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Test cases
+describe('handlePickup', () => {
+  beforeEach(() => {
+    consoleOutput = []; // Clear the captured console output before each test
+    console.log = (...args) => {
+      consoleOutput.push(args.join(' '));
+    };
   });
 
-  test('Should log when driver delivers payload', () => {
-    handleDriver({
-      data: {
-        store: 'Lawns',
-        orderId: 'order123',
-        customer: 'Koko',
-        address: 'Bremerton, WA',
-      },
-    });
-    expect(console.log).toHaveBeenCalledWith('DRIVER: delivered up order123');
+  it('should log "DRIVER: picked up [orderId]"', () => {
+    const payload = { orderId: '123' };
+    handlePickup(payload);
+    expect(consoleOutput).toContain('DRIVER: picked up 123');
+  });
+
+  it('should log "DRIVER: delivered up [orderId]" after a delay', async () => {
+    const payload = { orderId: '123' };
+    handlePickup(payload);
+
+    // Wait for 2000 milliseconds (2 seconds) to simulate the delay
+    await wait(2000);
+
+    expect(consoleOutput).toContain('DRIVER: delivered up 123');
   });
 });
