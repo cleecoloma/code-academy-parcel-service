@@ -1,37 +1,40 @@
 'use strict';
 
-const handleVendor = require('./handler.js');
-const eventEmitter = require('../../eventPool.js');
+// handler.test.js
 
-// Mock the eventEmitter methods
-jest.mock('../eventPool.js');
+const { handleDelivery, createPickup } = require('./handler');
 
-describe('handleVendor function', () => {
-  it('should emit pickup and driver events with the correct payload', () => {
-    const emitSpy = jest.spyOn(eventEmitter, 'emit');
-    const orderPayload = {
-      store: 'Lawns',
-      orderId: 'order123',
-      customer: 'Koko',
-      address: 'Bremerton, WA',
-    };
+// Mock console.log to capture log messages
+const originalConsoleLog = console.log;
+let consoleOutput;
 
-    handleVendor();
+beforeEach(() => {
+  consoleOutput = []; // Clear the captured console output before each test
+  console.log = (...args) => {
+    consoleOutput.push(args.join(' '));
+  };
+});
 
-    expect(emitSpy).toHaveBeenCalledWith('pickup', {
-      event: 'pickup',
-      data: orderPayload,
-    });
-    expect(emitSpy).toHaveBeenCalledWith('driver', {
-      data: orderPayload,
-    });
+afterEach(() => {
+  console.log = originalConsoleLog; // Restore the original console.log after each test
+});
+
+describe('handleDelivery', () => {
+  it('should log a thank you message with customer name', () => {
+    const payload = { customer: 'Alice' };
+    handleDelivery(payload);
+    expect(consoleOutput).toContain('Thank you for your order Alice');
   });
+});
 
-  it('should listen for deliveredVendor event', () => {
-    const onSpy = jest.spyOn(eventEmitter, 'on');
+describe('createPickup', () => {
+  it('should return an object with storeName, orderId, customer, and address', () => {
+    const storeName = 'My Store';
+    const pickup = createPickup(storeName);
 
-    handleVendor();
-
-    expect(onSpy).toHaveBeenCalledWith('deliveredVendor', expect.any(Function));
+    expect(pickup).toHaveProperty('store', storeName);
+    expect(pickup).toHaveProperty('orderId');
+    expect(pickup).toHaveProperty('customer');
+    expect(pickup).toHaveProperty('address');
   });
 });

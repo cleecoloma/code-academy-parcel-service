@@ -6,8 +6,6 @@ const io = require('socket.io-client');
 const capsSocket = io.connect(SERVER_URL + '/caps');
 const { createPickup, handleDelivery } = require('./handler.js');
 
-// capsSocket.emit('pickup', createPickup('1-206-flowers'));
-
 let intervalCount = 0;
 const maxIntervals = 5; // Number of intervals you want to run
 
@@ -16,12 +14,13 @@ function emitPickupEvent() {
   capsSocket.emit('pickup', createPickup('1-206-flowers'));
   intervalCount++;
 
+  // Stop the setInterval after 5 intervals
   if (intervalCount === maxIntervals) {
-    clearInterval(intervalId); // Stop the setInterval after 5 intervals
+    clearInterval(intervalId);
   }
 }
 
-// Start the setInterval
-const intervalId = setInterval(emitPickupEvent, 5000); // 5000 milliseconds = 5 seconds
+// Start the setInterval - 5000 milliseconds = 5 seconds
+const intervalId = setInterval(emitPickupEvent, 5000);
 
 capsSocket.on('delivered', handleDelivery);
