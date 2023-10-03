@@ -23,5 +23,5 @@ function emitPickupEvent() {
 // Start the setInterval - 5000 milliseconds = 5 seconds
 const intervalId = setInterval(emitPickupEvent, 5000);
 
-capsSocket.emit('join', { roomName: '1-206-flowers' });
+capsSocket.emit('join', { store: '1-206-flowers' });
 capsSocket.on('delivered', handleDelivery);

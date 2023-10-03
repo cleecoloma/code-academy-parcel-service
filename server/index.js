@@ -28,19 +28,17 @@ capsServer.on('connection', (socket) => {
 
   socket.on('in-transit', (payload) => {
     logger('in-transit', payload);
-    // socket.broadcast.emit('in-transit', payload);
-    socket.broadcast.to(payload.roomName).emit('in-transit', payload);
+    socket.broadcast.to(payload.store).emit('in-transit', payload);
   });
 
   socket.on('delivered', (payload) => {
     logger('delivered', payload);
-    // socket.broadcast.emit('delivered', payload);
-    socket.broadcast.to(payload.roomName).emit('delivered', payload);
+    socket.broadcast.to(payload.store).emit('delivered', payload);
   });
 
   socket.on('join', (payload) => {
-    console.log('A SOCKET HAS JOINED THE ROOM: ', payload.roomName);
-    socket.join(payload.roomName); //method for joining a room server side
-    socket.broadcast.to(payload.roomName).emit('join', payload);
+    console.log('A SOCKET HAS JOINED THE ROOM: ', payload.store);
+    socket.join(payload.store); //method for joining a room server side
+    socket.broadcast.to(payload.store).emit('join', payload);
   });
 })
