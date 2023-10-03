@@ -5,7 +5,9 @@
   "main": "hub.js",
   "scripts": {
     "test": "jest --verbose --coverage",
-    "start": "node hub.js"
+    "start": "node server/index.js",
+    "driver": "node clients/driver/index.js",
+    "vendor": "node clients/vendor/index.js"
   },
   "keywords": [],
   "author": "",
