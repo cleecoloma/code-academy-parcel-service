@@ -22,7 +22,7 @@ capsServer.on('connection', (socket) => {
 
   socket.on('pickup', payload => {
     // logger('pickup', payload);
-
+    console.log('Pickup payload ', payload);
     let clientQueue = queue.read(payload.clientId);
     if (!clientQueue) {
       let key = queue.store(payload.clientId, new MessageQueue());
@@ -34,12 +34,12 @@ capsServer.on('connection', (socket) => {
   })
 
   socket.on('in-transit', (payload) => {
-    logger('in-transit', payload);
+    // logger('in-transit', payload);
     socket.broadcast.to(payload.store).emit('in-transit', payload);
   });
 
   socket.on('delivered', (payload) => {
-    logger('delivered', payload);
+    // logger('delivered', payload);
     socket.broadcast.to(payload.store).emit('delivered', payload);
   });
 
