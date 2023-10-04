@@ -1,12 +1,10 @@
 'use strict';
 
 const { Server } = require('socket.io');
-
+const MessageQueue = require('./lib/queue.js')
 require('dotenv').config();
 const PORT = process.env.PORT;
-
 let server = new Server(PORT);
-
 let capsServer = server.of('/caps');
 
 function logger(type, payload){

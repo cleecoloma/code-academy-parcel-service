@@ -8,11 +8,17 @@ function handleDelivery(payload) {
 }
 
 function createPickup(storeName) {
+  let orderId = chance.guid()
   return {
-    store: storeName,
-    orderId: chance.guid(),
-    customer: chance.name(),
-    address: chance.address(),
+    event: 'pickup',
+    messageId: orderId,
+    clientId: storeName,
+    order: {
+      store: storeName,
+      orderId,
+      customer: chance.name(),
+      address: chance.address(),
+    }
   };
 }
 
