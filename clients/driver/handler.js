@@ -6,11 +6,11 @@ const io = require('socket.io-client');
 const capsSocket = io.connect(SERVER_URL + '/caps');
 
 function handlePickup(payload) {
-  console.log('DRIVER: picked up ' + payload.orderId);
+  console.log('DRIVER: picked up ' + payload.messageId);
   capsSocket.emit('in-transit', payload);
 
   setTimeout(() => {
-    console.log('DRIVER: delivered up ' + payload.orderId);
+    console.log('DRIVER: delivered up ' + payload.messageId);
     capsSocket.emit('delivered', payload);
   }, 2000);
 }

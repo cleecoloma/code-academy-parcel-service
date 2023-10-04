@@ -24,6 +24,5 @@ const { createPickup, handleDelivery } = require('./handler.js');
 // const intervalId = setInterval(emitPickupEvent, 5000);
 
 capsSocket.emit('pickup', createPickup('1-800-flowers'));
-
-capsSocket.emit('join', { store: '1-800-flowers' });
+capsSocket.emit('join', { clientId: '1-800-flowers' });
 capsSocket.on('delivered', handleDelivery);
