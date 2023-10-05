@@ -19,23 +19,27 @@ function logger(type, payload) {
 }
 
 function handlePickUp(payload) {
-  let clientQueue = pickUpQueue.read(payload.clientId);
-  if (!clientQueue) {
-    let key = pickUpQueue.store(payload.clientId, new MessageQueue());
-    clientQueue = pickUpQueue.read(key);
-  }
-  clientQueue.store(payload.messageId, payload);
-  console.log(pickUpQueue.read(payload.clientId));
+  // if (Object.keys(pickUpQueue.data).length !== 0) {
+    let clientQueue = pickUpQueue.read(payload.clientId);
+    if (!clientQueue) {
+      let key = pickUpQueue.store(payload.clientId, new MessageQueue());
+      clientQueue = pickUpQueue.read(key);
+    }
+    clientQueue.store(payload.messageId, payload);
+    console.log(pickUpQueue.read(payload.clientId));
+  // }
 }
 
 function handleDeliver(payload) {
-  let clientQueue = deliveredQueue.read(payload.clientId);
-  if (!clientQueue) {
-    let key = deliveredQueue.store(payload.clientId, new MessageQueue());
-    clientQueue = deliveredQueue.read(key);
-  }
-  clientQueue.store(payload.messageId, payload);
-  return console.log(deliveredQueue.read(payload.clientId));
+  // if (Object.keys(deliveredQueue.data).length !== 0) {
+    let clientQueue = deliveredQueue.read(payload.clientId);
+    if (!clientQueue) {
+      let key = deliveredQueue.store(payload.clientId, new MessageQueue());
+      clientQueue = deliveredQueue.read(key);
+    }
+    clientQueue.store(payload.messageId, payload);
+    return console.log(deliveredQueue.read(payload.clientId));
+  // }
 }
 
 capsServer.on('connection', (socket) => {
@@ -44,29 +48,33 @@ capsServer.on('connection', (socket) => {
   socket.on('pickup', (payload) => {
     logger('pickup', payload);
     handlePickUp(payload);
-    // socket.broadcast.emit('pickup', payload);
-    // socket.broadcast.to(payload.clientId).emit('pickup', payload);
   });
 
   socket.on('needPickup', (payload) => {
-    // console.log("client Queue : ", pickUpQueue);
-    let queue = pickUpQueue.read(payload.clientId);
-    let keys = Object.keys(queue.data);
+    if (Object.keys(pickUpQueue.data).length !== 0) {
+      // console.log("client Queue : ", pickUpQueue);
+      let queue = pickUpQueue.read(payload.clientId);
 
-    for (let i = 0; i < keys.length; i++) {
-      let newPayload = queue.read(keys[i]);
-      socket.emit('pickupLog', newPayload);
+      let keys = Object.keys(queue.data);
+
+      for (let i = 0; i < keys.length; i++) {
+        let newPayload = queue.read(keys[i]);
+        socket.emit('pickupLog', newPayload);
+      }
     }
   });
 
   socket.on('notifyDelivered', (payload) => {
-    // console.log("client Queue : ", pickUpQueue);
-    let queue = deliveredQueue.read(payload.clientId);
-    let keys = Object.keys(queue.data);
+    if (Object.keys(deliveredQueue.data).length !== 0) {
+      let queue = deliveredQueue.read(payload.clientId);
+      console.log("Here at notifyDelivered : ", payload)
+      let keys = Object.keys(queue.data);
 
-    for (let i = 0; i < keys.length; i++) {
-      let newPayload = queue.read(keys[i]);
-      socket.emit('deliveredLog', newPayload);
+      for (let i = 0; i < keys.length; i++) {
+        let newPayload = queue.read(keys[i]);
+        socket.emit('deliveredLog', newPayload);
+        queue.remove(keys[i]);
+      }
     }
   });
 
@@ -75,7 +83,7 @@ capsServer.on('connection', (socket) => {
     if (clientQueue) {
       clientQueue.remove(payload.messageId);
     }
-    console.log("NEW QUEUE AFTER REMOVAL : ", pickUpQueue);
+    console.log('NEW QUEUE AFTER REMOVAL : ', pickUpQueue);
   });
 
   socket.on('in-transit', (payload) => {
