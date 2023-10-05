@@ -21,7 +21,7 @@ afterEach(() => {
 
 describe('handleDelivery', () => {
   it('should log a thank you message with customer name', () => {
-    const payload = { customer: 'Alice' };
+    const payload = { order : { customer: 'Alice' }};
     handleDelivery(payload);
     expect(consoleOutput).toContain('Thank you for your order Alice');
   });
@@ -32,9 +32,9 @@ describe('createPickup', () => {
     const storeName = 'My Store';
     const pickup = createPickup(storeName);
 
-    expect(pickup).toHaveProperty('store', storeName);
-    expect(pickup).toHaveProperty('orderId');
-    expect(pickup).toHaveProperty('customer');
-    expect(pickup).toHaveProperty('address');
+    expect(pickup).toHaveProperty('clientId', storeName);
+    expect(pickup).toHaveProperty('messageId');
+    expect(pickup).toHaveProperty('event');
+    expect(pickup).toHaveProperty('order');
   });
 });
