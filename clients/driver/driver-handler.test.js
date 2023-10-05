@@ -43,13 +43,14 @@ describe('handlePickup', () => {
     expect(consoleOutput).toContain('DRIVER: picked up 123');
   });
 
-  it('should log "DRIVER: delivered up [orderId]" after a delay', async () => {
+  it('should log "DRIVER: delivered up [orderId]" after a delay', (done) => {
     const payload = { messageId: '123' };
     handlePickup(payload);
 
     // Wait for 2000 milliseconds (2 seconds) to simulate the delay
-    await wait(2000);
-
-    expect(consoleOutput).toContain('DRIVER: delivered up 123');
+    setTimeout(() => {
+      expect(consoleOutput).toContain('DRIVER: delivered up 123');
+      done(); // Call done to signal the completion of the test
+    }, 3000); // Adjust the timeout to match the actual delay
   });
 });
