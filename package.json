@@ -1,6 +1,6 @@
 {
   "name": "code-academy-parcel-service",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "CAPS will simulate a delivery service where vendors (such a flower shops) will ship products using our delivery service and when our drivers deliver them, each vendor will be notified that their customers received what they purchased.",
   "main": "/server/index.js",
   "scripts": {
