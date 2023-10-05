@@ -2,9 +2,14 @@
 
 const Chance = require('chance');
 const chance = new Chance();
+require('dotenv').config();
+const SERVER_URL = process.env.SERVER_URL;
+const io = require('socket.io-client');
+const capsSocket = io.connect(SERVER_URL + '/caps');
 
 function handleDelivery(payload) {
   console.log('Thank you for your order ' + payload.order.customer);
+  capsSocket.emit('vendorReceived', payload);
 }
 
 function createPickup(storeName) {

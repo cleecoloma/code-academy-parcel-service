@@ -26,6 +26,5 @@ const { createPickup, handleDelivery } = require('./handler.js');
 capsSocket.emit('join', { clientId: '1-800-flowers' });
 capsSocket.emit('notifyDelivered', { clientId: '1-800-flowers' });
 capsSocket.emit('pickup', createPickup('1-800-flowers'));
-// capsSocket.emit('pickup', createPickup('1-800-flowers'));
-// capsSocket.on('delivered', handleDelivery);
 capsSocket.on('deliveredLog', handleDelivery);
+capsSocket.on('delivered', handleDelivery);
