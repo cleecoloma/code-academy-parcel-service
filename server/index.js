@@ -92,7 +92,7 @@ capsServer.on('connection', (socket) => {
     payload.event = 'delivered';
     logger('delivered', payload);
     handleDeliver(payload);
-    socket.broadcast.emit('delivered', payload);
+    socket.broadcast.to(payload.clientId).emit('delivered', payload);
   });
 
   socket.on('join', (payload) => {
