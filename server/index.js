@@ -48,18 +48,29 @@ capsServer.on('connection', (socket) => {
     // socket.broadcast.to(payload.clientId).emit('pickup', payload);
   });
 
-  socket.on('get-pickup', (payload) => {
+  socket.on('needPickup', (payload) => {
     // console.log("client Queue : ", pickUpQueue);
-    let clientQueue = pickUpQueue.read(payload.clientId);
-    let keys = Object.keys(clientQueue.data);
+    let queue = pickUpQueue.read(payload.clientId);
+    let keys = Object.keys(queue.data);
 
     for (let i = 0; i < keys.length; i++) {
-      let newPayload = clientQueue.read(keys[i]);
-      socket.emit('pickups', newPayload);
+      let newPayload = queue.read(keys[i]);
+      socket.emit('pickupLog', newPayload);
     }
   });
 
-  socket.on('received', (payload) => {
+  socket.on('notifyDelivered', (payload) => {
+    // console.log("client Queue : ", pickUpQueue);
+    let queue = deliveredQueue.read(payload.clientId);
+    let keys = Object.keys(queue.data);
+
+    for (let i = 0; i < keys.length; i++) {
+      let newPayload = queue.read(keys[i]);
+      socket.emit('deliveredLog', newPayload);
+    }
+  });
+
+  socket.on('driverReceived', (payload) => {
     let clientQueue = pickUpQueue.read(payload.clientId);
     if (clientQueue) {
       clientQueue.remove(payload.messageId);
@@ -74,9 +85,9 @@ capsServer.on('connection', (socket) => {
 
   socket.on('delivered', (payload) => {
     payload.event = 'delivered';
-    handleDeliver(payload);
     logger('delivered', payload);
-    socket.broadcast.to(payload.clientId).emit('delivered', payload);
+    handleDeliver(payload);
+    // socket.broadcast.to(payload.clientId).emit('delivered', payload);
   });
 
   socket.on('join', (payload) => {
