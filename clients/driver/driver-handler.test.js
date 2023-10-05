@@ -38,13 +38,13 @@ describe('handlePickup', () => {
   });
 
   it('should log "DRIVER: picked up [orderId]"', () => {
-    const payload = { orderId: '123' };
+    const payload = { messageId: '123' };
     handlePickup(payload);
     expect(consoleOutput).toContain('DRIVER: picked up 123');
   });
 
   it('should log "DRIVER: delivered up [orderId]" after a delay', async () => {
-    const payload = { orderId: '123' };
+    const payload = { messageId: '123' };
     handlePickup(payload);
 
     // Wait for 2000 milliseconds (2 seconds) to simulate the delay
