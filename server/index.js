@@ -71,20 +71,16 @@ capsServer.on('connection', (socket) => {
     }
   });
 
-  socket.on('vendorReceived', (payload) => {
-    let clientQueue = deliveredQueue.read(payload.clientId);
+  socket.on('received', (payload) => {
+    let clientQueue;
+    if (payload.event === 'delivered') {
+      clientQueue = deliveredQueue.read(payload.clientId);
+    } else if (payload.event === 'pickup') {
+      clientQueue = pickUpQueue.read(payload.clientId);
+    }
     if (clientQueue) {
       clientQueue.remove(payload.messageId);
     }
-    console.log('DELIVERED QUEUE AFTER REMOVAL : ', deliveredQueue);
-  });
-
-  socket.on('driverReceived', (payload) => {
-    let clientQueue = pickUpQueue.read(payload.clientId);
-    if (clientQueue) {
-      clientQueue.remove(payload.messageId);
-    }
-    console.log('PICKUP QUEUE AFTER REMOVAL : ', pickUpQueue);
   });
 
   socket.on('in-transit', (payload) => {

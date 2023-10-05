@@ -9,7 +9,7 @@ const capsSocket = io.connect(SERVER_URL + '/caps');
 
 function handleDelivery(payload) {
   console.log('Thank you for your order ' + payload.order.customer);
-  capsSocket.emit('vendorReceived', payload);
+  capsSocket.emit('received', payload);
 }
 
 function createPickup(storeName) {
