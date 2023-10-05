@@ -4,7 +4,7 @@ const Chance = require('chance');
 const chance = new Chance();
 
 function handleDelivery(payload) {
-  console.log('Thank you for your order ' + payload.clientId);
+  console.log('Thank you for your order ' + payload.order.customer);
 }
 
 function createPickup(storeName) {

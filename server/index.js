@@ -55,15 +55,21 @@ capsServer.on('connection', (socket) => {
 
     for (let i = 0; i < keys.length; i++) {
       let newPayload = clientQueue.read(keys[i]);
-      // console.log('new payload : ', newPayload)
       socket.emit('pickups', newPayload);
     }
+  });
+
+  socket.on('received', (payload) => {
+    let clientQueue = pickUpQueue.read(payload.clientId);
+    if (clientQueue) {
+      clientQueue.remove(payload.messageId);
+    }
+    console.log("NEW QUEUE AFTER REMOVAL : ", pickUpQueue);
   });
 
   socket.on('in-transit', (payload) => {
     payload.event = 'in-transit';
     logger('in-transit', payload);
-    // socket.broadcast.to(payload.clientId).emit('in-transit', payload);
   });
 
   socket.on('delivered', (payload) => {
