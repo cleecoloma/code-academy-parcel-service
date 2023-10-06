@@ -4,7 +4,7 @@
   "description": "CAPS will simulate a delivery service where vendors (such a flower shops) will ship products using our delivery service and when our drivers deliver them, each vendor will be notified that their customers received what they purchased.",
   "main": "/server/index.js",
   "scripts": {
-    "test": "jest --verbose --coverage",
+    "test": "jest --verbose --coverage --detectOpenHandles",
     "start": "node server/index.js",
     "driver": "node clients/driver/index.js",
     "flower": "node clients/flower/index.js",
