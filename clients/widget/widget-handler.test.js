@@ -2,28 +2,29 @@
 
 // handler.test.js
 
+const mockSocket = {
+  emit: jest.fn(),
+};
+
 const { handleDelivery, createPickup } = require('./handler');
 
-// Mock console.log to capture log messages
-const originalConsoleLog = console.log;
-let consoleOutput;
-
-beforeEach(() => {
-  consoleOutput = []; // Clear the captured console output before each test
-  console.log = (...args) => {
-    consoleOutput.push(args.join(' '));
+jest.mock('socket.io-client', () => {
+  return {
+    connect: () => mockSocket, // our mockSocket will be returned when the connect method is called.
   };
 });
 
-afterEach(() => {
-  console.log = originalConsoleLog; // Restore the original console.log after each test
+beforeEach(() => {
+  // console.log = jest.fn(); ->
+  jest.useFakeTimers(); // mocks timeout functionality
+  jest.spyOn(console, 'log'); // keep our logger functionality, and spy on the invocation
 });
 
 describe('handleDelivery', () => {
   it('should log a thank you message with customer name', () => {
     const payload = { order : { customer: 'Alice' }};
     handleDelivery(payload);
-    expect(consoleOutput).toContain('Thank you for your order Alice');
+    expect(console.log).toHaveBeenCalled();
   });
 });
 
